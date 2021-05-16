@@ -34,7 +34,7 @@ export class CarsService {
   async getCarsByCarModel(carModelId: string): Promise<Car[]> {
     try {
       const cars = await this.sequelize.query(
-        'SP_GetCarByCarModel @carModelId=:carModelId',
+        'SP_GetCarsByCarModel @carModelId=:carModelId',
         {
           type: QueryTypes.SELECT,
           replacements: { carModelId },
