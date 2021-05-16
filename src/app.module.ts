@@ -4,6 +4,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CarsModule } from './cars/cars.module';
 import { SchedulesModule } from './schedules/schedules.module';
 
 @Module({
@@ -11,13 +12,14 @@ import { SchedulesModule } from './schedules/schedules.module';
     ConfigModule.forRoot({}),
     SequelizeModule.forRoot({
       dialect: 'mssql',
-      host: 'localhost',
-      port: 1401,
-      username: 'sa',
-      password: 'kien@04052000',
-      database: 'Car_Service_DB',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     }),
     SchedulesModule,
+    CarsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
