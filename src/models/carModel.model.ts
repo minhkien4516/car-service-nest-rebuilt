@@ -16,3 +16,7 @@ export class CarModel extends Model {
   city: string;
   rank: string;
 }
+
+export class FilteredCar extends Model {
+  carModelId: string;
+}

@@ -9,7 +9,7 @@ export class SchedulesController {
   private readonly logger = new Logger('SchedulesController');
   constructor(private readonly schedulesService: SchedulesService) {}
 
-  @MessagePattern('get_schedule_by_car_and_date')
+  @MessagePattern('get_schedules_by_car_and_date')
   async getSchedules(
     @Payload() data: { carId: string; date: string },
     @Ctx() context: RmqContext,

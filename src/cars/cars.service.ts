@@ -3,9 +3,10 @@ import { DatabaseError, QueryTypes, Sequelize } from 'sequelize';
 import { CarModelDTO } from 'src/dtos/add-car-model.dto';
 import { CarDTO } from 'src/dtos/add-car.dto';
 import { OneCarDTO } from 'src/dtos/add-one-car.dto';
+import { GetCarsByConditionsDTO } from 'src/dtos/get-cars-by-conditions.dto';
 import { UpdateCarModelInformationDTO } from 'src/dtos/update-car-model-information.dto';
 import { Car } from 'src/models/car.model';
-import { CarModel } from 'src/models/carModel.model';
+import { CarModel, FilteredCar } from 'src/models/carModel.model';
 
 @Injectable()
 export class CarsService {
@@ -146,6 +147,32 @@ export class CarsService {
         },
       );
       return inserted[0];
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new DatabaseError(error);
+    }
+  }
+
+  // get-cars-by-condition.dto.ts
+  async getCarsByConditions(
+    getCarsByConditionsDTO: GetCarsByConditionsDTO,
+  ): Promise<FilteredCar[]> {
+    try {
+      const car = await this.sequelize.query(
+        `SP_GetCarsByConditions @date=:date,@pickUpTime=:pickUpTime,@depCity=:depCity,@depCountry=:depCountry`,
+        {
+          type: QueryTypes.SELECT,
+          replacements: { ...getCarsByConditionsDTO },
+          raw: true,
+          mapToModel: true,
+          model: FilteredCar,
+        },
+      );
+      if (
+        typeof Object.keys(car) !== 'undefined' &&
+        Object.keys(car).length > 0
+      )
+        return JSON.parse(Object.values(car[0])[0]);
     } catch (error) {
       this.logger.error(error.message);
       throw new DatabaseError(error);
