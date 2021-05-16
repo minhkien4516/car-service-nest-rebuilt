@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, Logger, Query } from '@nestjs/common';
+import { Controller, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
 import { CarModelDTO } from 'src/dtos/add-car-model.dto';
 import { OneCarDTO } from 'src/dtos/add-one-car.dto';
@@ -34,10 +34,13 @@ export class CarsController {
     }
   }
 
-  @Get('searchBy')
+  @MessagePattern('get_cars_by_conditions')
   public async getCarsByConditions(
-    @Query() getCarsByConditionsDTO: GetCarsByConditionsDTO,
+    @Payload() getCarsByConditionsDTO: GetCarsByConditionsDTO,
+    @Ctx() context: RmqContext,
   ) {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
     try {
       const filteredCar = await this.carsService.getCarsByConditions(
         getCarsByConditionsDTO,
@@ -46,6 +49,8 @@ export class CarsController {
     } catch (error) {
       this.logger.error(error.message);
       throw new HttpException(error.message, HttpStatus.SERVICE_UNAVAILABLE);
+    } finally {
+      channel.ack(originalMessage);
     }
   }
 
