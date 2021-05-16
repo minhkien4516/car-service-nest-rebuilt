@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -9,7 +10,7 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [process.env.MQ_URL],
-        queue: 'buses_queue',
+        queue: 'cars_queue',
         noAck: false,
         prefetchCount: 1,
         queueOptions: {
