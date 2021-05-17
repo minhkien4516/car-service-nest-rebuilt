@@ -1,5 +1,10 @@
 import { Controller, HttpException, HttpStatus, Logger } from '@nestjs/common';
-import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
+import {
+  Ctx,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 import { SchedulesDTO } from 'src/dtos/add-schedules.dto';
 
 import { SchedulesService } from './schedules.service';

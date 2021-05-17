@@ -1,4 +1,4 @@
 export class ScheduleDetailsDTO {
-  carId: string;
+  id: string;
   scheduleId: string;
 }

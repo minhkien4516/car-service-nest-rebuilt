@@ -118,12 +118,12 @@ export class SchedulesService {
       const insertedDetails = await Promise.all(
         scheduleDetailsDTO.map(async (cars) => {
           const inserted = await this.sequelize.query(
-            `SP_AddScheduleDetails @carId=:carId,@scheduleId=:scheduleId`,
+            `SP_AddScheduleDetails @id=:id,@scheduleId=:scheduleId`,
             {
               type: QueryTypes.SELECT,
               replacements: {
                 scheduleId,
-                carId: cars.carId,
+                id: cars.id,
               },
               raw: true,
               mapToModel: true,
