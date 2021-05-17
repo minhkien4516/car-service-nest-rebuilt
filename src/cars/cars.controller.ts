@@ -47,6 +47,7 @@ export class CarsController {
   }
 
   @MessagePattern('get_cars_by_conditions')
+  @Get('searchBy')
   public async getCarsByConditions(
     @Query() getCarsByConditionsDTO: GetCarsByConditionsDTO,
     @Ctx() context: RmqContext,

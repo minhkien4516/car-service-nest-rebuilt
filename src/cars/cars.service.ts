@@ -169,10 +169,12 @@ export class CarsService {
         },
       );
       if (
+        typeof Object.keys(car) !== null &&
         typeof Object.keys(car) !== 'undefined' &&
         Object.keys(car).length > 0
       )
         return JSON.parse(Object.values(car[0])[0]);
+      return [];
     } catch (error) {
       this.logger.error(error.message);
       throw new DatabaseError(error);
